@@ -5,26 +5,7 @@ const NUM_TRACKS = 8;
 const NUM_STEPS = 16;
 const PITCHES = [1, 1.1, 1.25, 1.32, 1.5, 1.7, 1.9, 2];
 
-let patternMatrix = math.zeros(NUM_TRACKS, NUM_PATTERNS * NUM_STEPS);
-
-
-function toFixed(x) {
-    if (Math.abs(x) < 1.0) {
-        var e = parseInt(x.toString().split('e-')[1]);
-        if (e) {
-            x *= Math.pow(10,e-1);
-            x = '0.' + (new Array(e)).join('0') + x.toString().substring(2);
-        }
-    } else {
-        var e = parseInt(x.toString().split('+')[1]);
-        if (e > 20) {
-            e -= 20;
-            x /= Math.pow(10,e);
-            x += (new Array(e+1)).join('0');
-        }
-    }
-    return x;
-}
+var patternMatrix;
 
 
 function Track(vol, pan, pitch, steps) {
@@ -135,7 +116,7 @@ function convertIfJson(text) {
 function handlePaste(event) {
 
     //console.log('In handlePaste <b>' + event.type + '</b> operation. Payload is: <b>' + event.clipboardData.getData('text/plain') + '</b>');
-
+    patternMatrix = math.zeros(NUM_TRACKS, NUM_PATTERNS * NUM_STEPS);
     let txt = event.clipboardData.getData('text/plain');
 
     txt = convertIfJson(txt);
@@ -556,7 +537,7 @@ function handlePaste(event) {
         },
     };
 
-    console.log(JSON.stringify(obj));
+    //console.log(JSON.stringify(obj));
 
     const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(obj));
     const dlAnchorElem = document.createElement('a');
