@@ -106,12 +106,6 @@ function performCutTextarea() {
     }
 }
 
-// Get the buttons
-var cutTextareaBtn = document.querySelector('.js-textareacutbtn');
-
-// Add click event listeners
-//cutTextareaBtn.addEventListener('click', performCutTextarea);
-
 function logUserOperation(event) {
     // log('User performed <b>' + event.type + '</b> operation. Payload is: <b>' + event.clipboardData.getData('text/plain') + '</b>');
 }
