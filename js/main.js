@@ -144,7 +144,7 @@ function handlePaste(event) {
 
     // Populate tempStateStrArray
     tempStateStrArray = txt.split(',');
-    console.log('tempStateStrArray: ' + tempStateStrArray);
+    //console.log('tempStateStrArray: ' + tempStateStrArray);
 
 
     // Populate tempStateComplexArray complex numbers
