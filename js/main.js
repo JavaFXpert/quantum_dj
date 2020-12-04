@@ -173,7 +173,7 @@ function handlePaste(event) {
     for (let idx = 0; idx < tempStateStrArray.length; idx++) {
         const complexNumStr = tempStateStrArray[idx];
         let amplitude = strToComplexNum(complexNumStr);
-        console.log('amplitude: ' + amplitude);
+        //console.log('amplitude: ' + amplitude);
         tempStateComplexArray.push(amplitude);
 
         let probability = math.multiply(amplitude, math.conj(amplitude));
@@ -184,7 +184,7 @@ function handlePaste(event) {
         trackNum = math.round(trackNum, 0);
         trackNumArray.push(trackNum);
 
-        console.log("trackNum: " + trackNum);
+        //console.log("trackNum: " + trackNum);
 
         patternMatrix = math.subset(patternMatrix, math.index(trackNum, idx), soundVolume);
 
