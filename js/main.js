@@ -7,13 +7,6 @@ const PITCHES = [1, 1.1, 1.25, 1.32, 1.5, 1.7, 1.9, 2];
 
 let patternMatrix = math.zeros(NUM_TRACKS, NUM_PATTERNS * NUM_STEPS);
 
-function log(event) {
-    var timeBadge = new Date().toTimeString().split(' ')[0];
-    var newInfo = document.createElement('p');
-    newInfo.innerHTML = '<span class="badge">' + timeBadge + '</span> ' + event + '</b>';
-    console.log(newInfo);
-}
-
 
 function toFixed(x) {
     if (Math.abs(x) < 1.0) {
@@ -52,7 +45,7 @@ function createTrackFromPatternMatrix(trackIdx, patternIdx) {
 
 const strToComplexNum = function (complexStr) {
     // Delineation between real and imaginary parts is first sign (+/-) that isn't at the start of the string
-    //log('complexStr: ' + complexStr);
+    //console.log('complexStr: ' + complexStr);
     let minusSignPosition = complexStr.indexOf('-', 1);
     if (complexStr.charAt(minusSignPosition - 1) === 'e') {
         minusSignPosition = complexStr.indexOf('-', minusSignPosition + 1);
@@ -100,14 +93,14 @@ function performCutTextarea() {
     try {
         var successful = document.execCommand('cut');
         var msg = successful ? 'successful' : 'unsuccessful';
-        log('Cutting text command was ' + msg);
+        console.log('Cutting text command was ' + msg);
     } catch (err) {
-        log('execCommand Error', err);
+        console.log('execCommand Error', err);
     }
 }
 
 function logUserOperation(event) {
-    // log('User performed <b>' + event.type + '</b> operation. Payload is: <b>' + event.clipboardData.getData('text/plain') + '</b>');
+    // console.log('User performed <b>' + event.type + '</b> operation. Payload is: <b>' + event.clipboardData.getData('text/plain') + '</b>');
 }
 
 function convertIfJson(text) {
@@ -119,7 +112,7 @@ function convertIfJson(text) {
         return text;
     }
 
-    //log(svObj.output_amplitudes);
+    //console.log(svObj.output_amplitudes);
 
     let newText = '[';
     for (let ampIdx = 0; ampIdx < svObj.output_amplitudes.length; ampIdx++) {
@@ -134,19 +127,19 @@ function convertIfJson(text) {
     }
     newText += ']';
 
-    log("newText: " + newText);
+    console.log("newText: " + newText);
     return newText;
 
 }
 
 function handlePaste(event) {
 
-    //log('In handlePaste <b>' + event.type + '</b> operation. Payload is: <b>' + event.clipboardData.getData('text/plain') + '</b>');
+    //console.log('In handlePaste <b>' + event.type + '</b> operation. Payload is: <b>' + event.clipboardData.getData('text/plain') + '</b>');
 
     let txt = event.clipboardData.getData('text/plain');
 
     txt = convertIfJson(txt);
-    log('txt: ' + txt);
+    console.log('txt: ' + txt);
 
     let tempStateStrArray = [];
     let pos = 0;
@@ -170,7 +163,7 @@ function handlePaste(event) {
 
     // Populate tempStateStrArray
     tempStateStrArray = txt.split(',');
-    log('tempStateStrArray: ' + tempStateStrArray);
+    console.log('tempStateStrArray: ' + tempStateStrArray);
 
 
     // Populate tempStateComplexArray complex numbers
@@ -180,7 +173,7 @@ function handlePaste(event) {
     for (let idx = 0; idx < tempStateStrArray.length; idx++) {
         const complexNumStr = tempStateStrArray[idx];
         let amplitude = strToComplexNum(complexNumStr);
-        log('amplitude: ' + amplitude);
+        console.log('amplitude: ' + amplitude);
         tempStateComplexArray.push(amplitude);
 
         let probability = math.multiply(amplitude, math.conj(amplitude));
@@ -188,19 +181,22 @@ function handlePaste(event) {
         soundVolumeArray.push(soundVolume);
 
         let trackNum = (amplitude.toPolar().phi / 6.283185307179586 * NUM_TRACKS + NUM_TRACKS) % NUM_TRACKS;
+        trackNum = math.round(trackNum, 0);
         trackNumArray.push(trackNum);
+
+        console.log("trackNum: " + trackNum);
 
         patternMatrix = math.subset(patternMatrix, math.index(trackNum, idx), soundVolume);
 
     }
-    log('tempStateComplexArray: ' + tempStateComplexArray);
-    //log('soundVolumeArray: ' + soundVolumeArray);
-    //log('trackNumArray: ' + trackNumArray);
+    console.log('tempStateComplexArray: ' + tempStateComplexArray);
+    //console.log('soundVolumeArray: ' + soundVolumeArray);
+    //console.log('trackNumArray: ' + trackNumArray);
 
-    //log('patternMatrix: ' + patternMatrix);
+    //console.log('patternMatrix: ' + patternMatrix);
 
     const stateVectorComplexMatrix = math.matrix(tempStateComplexArray);
-    //log('stateVectorComplexMatrix: ' + stateVectorComplexMatrix);
+    //console.log('stateVectorComplexMatrix: ' + stateVectorComplexMatrix);
 
     let tracksArray = [];
     for (let trackIdx = 0; trackIdx < NUM_TRACKS; trackIdx++) {
@@ -211,7 +207,7 @@ function handlePaste(event) {
         let track = new Track(1, 0, 0, stepsArray);
         tracksArray.push(track);
         //tracksArray.push(stepsArray);
-        //log(JSON.stringify({steps: stepsArray}));
+        //console.log(JSON.stringify({steps: stepsArray}));
     }
 
     let obj = {
@@ -560,7 +556,7 @@ function handlePaste(event) {
         },
     };
 
-    log(JSON.stringify(obj));
+    console.log(JSON.stringify(obj));
 
     const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(obj));
     const dlAnchorElem = document.createElement('a');
