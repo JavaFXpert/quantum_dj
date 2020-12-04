@@ -66,19 +66,6 @@ const strToComplexNum = function (complexStr) {
 };
 
 
-function performCutTextarea() {
-    var hasSelection = document.queryCommandEnabled('cut');
-    var cutTextarea = document.querySelector('.js-cuttextarea');
-    cutTextarea.select();
-
-    try {
-        var successful = document.execCommand('cut');
-        var msg = successful ? 'successful' : 'unsuccessful';
-        console.log('Cutting text command was ' + msg);
-    } catch (err) {
-        console.log('execCommand Error', err);
-    }
-}
 
 function logUserOperation(event) {
     // console.log('User performed <b>' + event.type + '</b> operation. Payload is: <b>' + event.clipboardData.getData('text/plain') + '</b>');
@@ -170,7 +157,7 @@ function handlePaste(event) {
         patternMatrix = math.subset(patternMatrix, math.index(trackNum, idx), soundVolume);
 
     }
-    console.log('tempStateComplexArray: ' + tempStateComplexArray);
+    //console.log('tempStateComplexArray: ' + tempStateComplexArray);
     //console.log('soundVolumeArray: ' + soundVolumeArray);
     //console.log('trackNumArray: ' + trackNumArray);
 
@@ -547,6 +534,4 @@ function handlePaste(event) {
     dlAnchorElem.click();
 }
 
-document.addEventListener('cut', logUserOperation);
-document.addEventListener('copy', logUserOperation);
 document.addEventListener('paste', handlePaste);
