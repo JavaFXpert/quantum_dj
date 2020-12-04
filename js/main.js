@@ -95,7 +95,7 @@ function convertIfJson(text) {
     }
     newText += ']';
 
-    console.log("newText: " + newText);
+    //console.log("newText: " + newText);
     return newText;
 
 }
@@ -107,7 +107,7 @@ function handlePaste(event) {
     let txt = event.clipboardData.getData('text/plain');
 
     txt = convertIfJson(txt);
-    console.log('txt: ' + txt);
+    //console.log('txt: ' + txt);
 
     let tempStateStrArray = [];
     let pos = 0;
