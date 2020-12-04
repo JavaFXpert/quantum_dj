@@ -1,5 +1,3 @@
-import * as math from 'https://cdn.skypack.dev/mathjs@8.0.1';
-
 var logTarget = document.getElementById('logTarget');
 
 const NUM_PATTERNS = 16;
@@ -13,7 +11,7 @@ function log(event) {
     var timeBadge = new Date().toTimeString().split(' ')[0];
     var newInfo = document.createElement('p');
     newInfo.innerHTML = '<span class="badge">' + timeBadge + '</span> ' + event + '</b>';
-    logTarget.appendChild(newInfo);
+    console.log(newInfo);
 }
 
 
@@ -112,7 +110,7 @@ function performCutTextarea() {
 var cutTextareaBtn = document.querySelector('.js-textareacutbtn');
 
 // Add click event listeners
-cutTextareaBtn.addEventListener('click', performCutTextarea);
+//cutTextareaBtn.addEventListener('click', performCutTextarea);
 
 function logUserOperation(event) {
     // log('User performed <b>' + event.type + '</b> operation. Payload is: <b>' + event.clipboardData.getData('text/plain') + '</b>');
