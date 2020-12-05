@@ -140,16 +140,24 @@ function handlePaste(event) {
     let trackNumArray = [];
     for (let idx = 0; idx < tempStateStrArray.length; idx++) {
         const complexNumStr = tempStateStrArray[idx];
+        //console.log('complexNumStr: ' + complexNumStr);
+
         let amplitude = strToComplexNum(complexNumStr);
         //console.log('amplitude: ' + amplitude);
+
         tempStateComplexArray.push(amplitude);
 
         let probability = math.multiply(amplitude, math.conj(amplitude));
+        //console.log('probability: ' + probability);
+
         let soundVolume = probability > 0 ? 1 : 0;
+        //console.log('soundVolume: ' + soundVolume);
+
         soundVolumeArray.push(soundVolume);
 
-        let trackNum = (amplitude.toPolar().phi / 6.283185307179586 * NUM_TRACKS + NUM_TRACKS) % NUM_TRACKS;
-        trackNum = math.round(trackNum, 0);
+        //console.log('amplitude.toPolar().phi: ' + amplitude.toPolar().phi);
+        let trackNum = math.round(amplitude.toPolar().phi / 6.283185307179586 * NUM_TRACKS + NUM_TRACKS, 0) % NUM_TRACKS;
+        //trackNum = math.round(trackNum, 0);
         trackNumArray.push(trackNum);
 
         //console.log("trackNum: " + trackNum);
